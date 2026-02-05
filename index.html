@@ -1,1 +1,33 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BerCant Fitness | Günlük Takip</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h1>🏋️ BerCant Fitness</h1>
+
+  <div class="card">
+    <input id="name" placeholder="Ad Soyad" />
+    <input id="water" type="number" placeholder="Su (Litre)" />
+    <input id="supp" placeholder="Takviyeler" />
+    <textarea id="food" placeholder="Yenilen yemekler / not"></textarea>
+    <button onclick="saveData()">Kaydet</button>
+  </div>
+
+  <h2>Kayıtlarım</h2>
+  <div id="records"></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
 
