@@ -1,112 +1,66 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Girişi | Ber Can’t Fitness</title>
-  <link rel="stylesheet" href="style.css">
-
-  <!-- Firebase -->
-  <script type="module" src="app.js"></script>
-  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | Ber Can’t Fitness</title>
+<link rel="stylesheet" href="style.css">
+<script type="module" src="app.js"></script>
 </head>
 
 <body>
 
-<div class="container">
+<div class="admin-layout">
 
-  <!-- LOGIN -->
-  <div id="loginBox" class="card">
-    <div class="hero">
-      <h1>🔐 Admin Girişi</h1>
-      <p>Yetkili erişim</p>
-    </div>
-
-    <input type="password" id="adminPass" placeholder="Admin Şifresi">
-    <button onclick="login()">Giriş Yap</button>
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>👑 Admin</h2>
+    <a href="#" onclick="loadDashboard()">📊 Dashboard</a>
+    <a href="#" onclick="loadAllData()">📋 Tüm Kayıtlar</a>
+    <a href="#" onclick="logout()">🚪 Çıkış</a>
   </div>
 
-  <!-- PANEL -->
-  <div id="panelBox" style="display:none;">
+  <!-- MAIN -->
+  <div class="main-content">
 
-    <div class="hero">
-      <h1>👑 Admin Panel</h1>
-      <p>Tüm sporcu kayıtları</p>
+    <h1>Ber Can’t Fitness Panel</h1>
+
+    <!-- STATS -->
+    <div class="stats">
+      <div class="stat-box">
+        <h3 id="totalRecords">0</h3>
+        <p>Toplam Kayıt</p>
+      </div>
+
+      <div class="stat-box">
+        <h3 id="totalUsers">0</h3>
+        <p>Toplam Sporcu</p>
+      </div>
     </div>
 
-    <div class="card">
-      <button onclick="loadAllData()">Tüm Kayıtları Getir</button>
-      <button onclick="logout()">Çıkış Yap</button>
-    </div>
-
+    <!-- RECORD LIST -->
     <div id="allRecords"></div>
 
   </div>
 
 </div>
 
-<script src="app.js"></script>
-
 <script>
-const ADMIN_PASSWORD = "3333"; // 🔥 BURAYI DEĞİŞTİR
+const ADMIN_PASSWORD = "1234"; // değiştir
 
-// Sayfa açılınca kontrol
-if (localStorage.getItem("adminAuth") === "true") {
-  showPanel();
-}
-
-function login() {
-  const pass = document.getElementById("adminPass").value;
-
+if (localStorage.getItem("adminAuth") !== "true") {
+  const pass = prompt("Admin Şifresi:");
   if (pass === ADMIN_PASSWORD) {
     localStorage.setItem("adminAuth", "true");
-    showPanel();
   } else {
-    alert("Hatalı şifre");
+    alert("Yetkisiz erişim");
+    window.location.href = "index.html";
   }
 }
 
-function logout() {
+function logout(){
   localStorage.removeItem("adminAuth");
-  location.reload();
-}
-
-function showPanel() {
-  document.getElementById("loginBox").style.display = "none";
-  document.getElementById("panelBox").style.display = "block";
-}
-
-function loadAllData() {
-  const container = document.getElementById("allRecords");
-  container.innerHTML = "";
-
-  db.collection("records")
-  .get()
-
-    .then(snapshot => {
-      snapshot.forEach(doc => {
-        const d = doc.data();
-
-        container.innerHTML += `
-          <div class="record">
-            <strong>👤 ${d.name}</strong><br>
-            📅 ${d.date} ${d.time}<br>
-            💧 Su: ${d.water} L<br>
-            💊 Takviye: ${d.supp}<br>
-            🍽 Yemek: ${d.food}<br><br>
-            <button onclick="deleteRecord('${doc.id}')">Sil</button>
-          </div>
-        `;
-      });
-    });
-}
-
-function deleteRecord(id) {
-  if (confirm("Bu kayıt silinsin mi?")) {
-    db.collection("records").doc(id).delete().then(() => {
-      loadAllData();
-    });
-  }
+  window.location.href = "index.html";
 }
 </script>
 
