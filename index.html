@@ -1,46 +1,16 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BerCant Fitness | Günlük Takip</title>
-  <link rel="stylesheet" href="style.css" />
-
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-</head>
-<body>
-<nav class="navbar">
-  <a href="index.html">Ana Sayfa</a>
-  <a href="program.html">Program</a>
-  <a href="takip.html">Günlük Takip</a>
-  <a href="profil.html">Profil</a>
-</nav>
-
 <div class="container">
-  <h1>🏋️ BerCant Fitness</h1>
 
-  <div class="card">
-    <input id="name" placeholder="Ad Soyad" />
-    <input id="water" type="number" placeholder="Su (Litre)" />
-    <input id="supp" placeholder="Takviyeler" />
-    <textarea id="food" placeholder="Yenilen yemekler / not"></textarea>
-    <button onclick="saveData()">Kaydet</button>
+  <div class="hero">
+    <h1>🏋️ BER CAN’T FITNESS</h1>
+    <p>Kişisel Antrenman & Online Takip Sistemi</p>
   </div>
 
-  <h2>Kayıtlarım</h2>
-  <div id="records"></div>
+  <div class="card">
+    <h3>Hoşgeldin 👋</h3>
+    <p>
+      Bu platform üzerinden antrenman programını takip edebilir,
+      günlük su tüketimini ve beslenmeni kaydedebilirsin.
+    </p>
+  </div>
+
 </div>
-
-<script src="app.js"></script>
-  <div class="bottom-nav">
-  <a href="index.html">🏠<br>Ana</a>
-  <a href="program.html">🏋️<br>Program</a>
-  <a href="takip.html">📊<br>Takip</a>
-  <a href="profil.html">👤<br>Profil</a>
-</div>
-
-</body>
-</html>
-
