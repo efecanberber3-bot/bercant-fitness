@@ -53,6 +53,22 @@ window.loadAllData = async function () {
         🍽 ${d.food}<br><br>
         <button onclick="deleteRecord('${document.id}')">Sil</button>
       </div>
+      window.loadDashboard = async function () {
+  const snapshot = await getDocs(collection(db, "records"));
+
+  let total = snapshot.size;
+  let users = new Set();
+
+  snapshot.forEach(doc => {
+    users.add(doc.data().name);
+  });
+
+  document.getElementById("totalRecords").innerText = total;
+  document.getElementById("totalUsers").innerText = users.size;
+
+  document.getElementById("allRecords").innerHTML = "";
+};
+
     `;
   });
 };
