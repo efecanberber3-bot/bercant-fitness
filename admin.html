@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel | Ber Can’t Fitness</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="hero">
+    <h1>👑 Admin Panel</h1>
+    <p>Tüm Sporcu Kayıtları</p>
+  </div>
+
+  <div class="card">
+    <button onclick="loadAllData()">Tüm Kayıtları Getir</button>
+  </div>
+
+  <div id="allRecords"></div>
+
+</div>
+
+<script src="app.js"></script>
+
+<script>
+function loadAllData() {
+  const container = document.getElementById("allRecords");
+  container.innerHTML = "";
+
+  db.collection("records")
+    .orderBy("date", "desc")
+    .get()
+    .then(snapshot => {
+      snapshot.forEach(doc => {
+        const d = doc.data();
+
+        container.innerHTML += `
+          <div class="record">
+            <strong>👤 ${d.name}</strong><br>
+            📅 ${d.date} ${d.time}<br>
+            💧 Su: ${d.water} L<br>
+            💊 Takviye: ${d.supp}<br>
+            🍽 Yemek: ${d.food}<br><br>
+            <button onclick="deleteRecord('${doc.id}')">Sil</button>
+          </div>
+        `;
+      });
+    });
+}
+
+function deleteRecord(id) {
+  if (confirm("Bu kayıt silinsin mi?")) {
+    db.collection("records").doc(id).delete().then(() => {
+      alert("Silindi");
+      loadAllData();
+    });
+  }
+}
+</script>
+
+</body>
+</html>
