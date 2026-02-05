@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel | Ber Can’t Fitness</title>
+  <title>Admin Girişi | Ber Can’t Fitness</title>
   <link rel="stylesheet" href="style.css">
 
   <!-- Firebase -->
@@ -15,22 +15,67 @@
 
 <div class="container">
 
-  <div class="hero">
-    <h1>👑 Admin Panel</h1>
-    <p>Tüm Sporcu Kayıtları</p>
+  <!-- LOGIN -->
+  <div id="loginBox" class="card">
+    <div class="hero">
+      <h1>🔐 Admin Girişi</h1>
+      <p>Yetkili erişim</p>
+    </div>
+
+    <input type="password" id="adminPass" placeholder="Admin Şifresi">
+    <button onclick="login()">Giriş Yap</button>
   </div>
 
-  <div class="card">
-    <button onclick="loadAllData()">Tüm Kayıtları Getir</button>
-  </div>
+  <!-- PANEL -->
+  <div id="panelBox" style="display:none;">
 
-  <div id="allRecords"></div>
+    <div class="hero">
+      <h1>👑 Admin Panel</h1>
+      <p>Tüm sporcu kayıtları</p>
+    </div>
+
+    <div class="card">
+      <button onclick="loadAllData()">Tüm Kayıtları Getir</button>
+      <button onclick="logout()">Çıkış Yap</button>
+    </div>
+
+    <div id="allRecords"></div>
+
+  </div>
 
 </div>
 
 <script src="app.js"></script>
 
 <script>
+const ADMIN_PASSWORD = "3333"; // 🔥 BURAYI DEĞİŞTİR
+
+// Sayfa açılınca kontrol
+if (localStorage.getItem("adminAuth") === "true") {
+  showPanel();
+}
+
+function login() {
+  const pass = document.getElementById("adminPass").value;
+
+  if (pass === ADMIN_PASSWORD) {
+    localStorage.setItem("adminAuth", "true");
+    showPanel();
+  } else {
+    alert("Hatalı şifre");
+  }
+}
+
+function logout() {
+  localStorage.removeItem("adminAuth");
+  location.reload();
+}
+
+function showPanel() {
+  document.getElementById("loginBox").style.display = "none";
+  document.getElementById("panelBox").style.display = "block";
+}
+
 function loadAllData() {
   const container = document.getElementById("allRecords");
   container.innerHTML = "";
@@ -59,7 +104,6 @@ function loadAllData() {
 function deleteRecord(id) {
   if (confirm("Bu kayıt silinsin mi?")) {
     db.collection("records").doc(id).delete().then(() => {
-      alert("Silindi");
       loadAllData();
     });
   }
