@@ -1,12 +1,18 @@
+// Firebase Modular SDK
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyA6vXTR-ABEPRI1P181lNXB-8SfLCG0SWY",
   projectId: "bercant-fitness",
 };
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-function saveData() {
+// GLOBAL YAP
+window.saveData = async function () {
   const name = document.getElementById("name").value;
   const water = document.getElementById("water").value;
   const supp = document.getElementById("supp").value;
@@ -17,7 +23,7 @@ function saveData() {
     return;
   }
 
-  db.collection("records").add({
+  await addDoc(collection(db, "records"), {
     name,
     water,
     supp,
@@ -27,27 +33,31 @@ function saveData() {
   });
 
   alert("Kaydedildi");
-  loadData(name);
-}
+};
 
-function loadData(name) {
-  const recordsDiv = document.getElementById("records");
-  recordsDiv.innerHTML = "";
+window.loadAllData = async function () {
+  const container = document.getElementById("allRecords");
+  container.innerHTML = "";
 
-  db.collection("records")
-    .where("name", "==", name)
-    .get()
-    .then(snapshot => {
-      snapshot.forEach(doc => {
-        const d = doc.data();
-        recordsDiv.innerHTML += `
-          <div class="record">
-            📅 ${d.date} ${d.time}<br>
-            💧 Su: ${d.water} L<br>
-            💊 Takviye: ${d.supp}<br>
-            🍽 Yemek: ${d.food}
-          </div>
-        `;
-      });
-    });
-}
+  const querySnapshot = await getDocs(collection(db, "records"));
+
+  querySnapshot.forEach((document) => {
+    const d = document.data();
+
+    container.innerHTML += `
+      <div class="record">
+        <strong>👤 ${d.name}</strong><br>
+        📅 ${d.date} ${d.time}<br>
+        💧 ${d.water} L<br>
+        💊 ${d.supp}<br>
+        🍽 ${d.food}<br><br>
+        <button onclick="deleteRecord('${document.id}')">Sil</button>
+      </div>
+    `;
+  });
+};
+
+window.deleteRecord = async function (id) {
+  await deleteDoc(doc(db, "records", id));
+  loadAllData();
+};
