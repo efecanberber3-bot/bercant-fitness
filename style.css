@@ -1,3 +1,22 @@
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  background: #111;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.navbar a:hover {
+  color: #00e676;
+}
+
 * {
   box-sizing: border-box;
   font-family: Arial, sans-serif;
