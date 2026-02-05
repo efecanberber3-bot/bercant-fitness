@@ -81,8 +81,8 @@ function loadAllData() {
   container.innerHTML = "";
 
   db.collection("records")
-    .orderBy("date", "desc")
-    .get()
+  .get()
+
     .then(snapshot => {
       snapshot.forEach(doc => {
         const d = doc.data();
